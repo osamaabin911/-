@@ -4,1741 +4,910 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خير - لإدارة يومك</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F3F4F6;
-            --bg-card: #E5E7EB;
-            --bg-hover: #D1D5DB;
-            --primary: #6B7280;
-            --primary-light: #9CA3AF;
-            --secondary: #374151;
-            --text-primary: #1F2937;
-            --text-secondary: #4B5563;
-            --text-muted: #9CA3AF;
-            --border: #D1D5DB;
-            --success: #6B7280;
-            --danger: #EF4444;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease-out;
-        }
-
-        /* Dark Theme */
-        body.theme-dark {
-            --bg-primary: #0D0D0D;
-            --bg-secondary: #1A1A1A;
-            --bg-card: #242424;
-            --bg-hover: #2D2D2D;
-            --primary: #9CA3AF;
-            --primary-light: #6B7280;
-            --secondary: #E5E7EB;
-            --text-primary: #FFFFFF;
-            --text-secondary: #D1D5DB;
-            --text-muted: #6B7280;
-            --border: #374151;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Gray Theme */
-        body.theme-gray {
-            --bg-primary: #F9FAFB;
-            --bg-secondary: #E5E7EB;
-            --bg-card: #D1D5DB;
-            --bg-hover: #9CA3AF;
-            --primary: #4B5563;
-            --primary-light: #6B7280;
-            --secondary: #1F2937;
-            --text-primary: #1F2937;
-            --text-secondary: #374151;
-            --text-muted: #6B7280;
-            --border: #9CA3AF;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Blue Theme */
-        body.theme-blue {
-            --bg-primary: #EFF6FF;
-            --bg-secondary: #DBEAFE;
-            --bg-card: #BFDBFE;
-            --bg-hover: #93C5FD;
-            --primary: #1D4ED8;
-            --primary-light: #3B82F6;
-            --secondary: #1E40AF;
-            --text-primary: #1E3A5F;
-            --text-secondary: #1E40AF;
-            --text-muted: #3B82F6;
-            --border: #60A5FA;
-            --card-shadow: 0 4px 20px rgba(29, 78, 216, 0.15);
-        }
-
-        /* Green Theme */
-        body.theme-green {
-            --bg-primary: #ECFDF5;
-            --bg-secondary: #D1FAE5;
-            --bg-card: #A7F3D0;
-            --bg-hover: #6EE7B7;
-            --primary: #047857;
-            --primary-light: #059669;
-            --secondary: #065F46;
-            --text-primary: #064E3B;
-            --text-secondary: #065F46;
-            --text-muted: #059669;
-            --border: #34D399;
-            --card-shadow: 0 4px 20px rgba(4, 120, 87, 0.15);
-        }
-
-        /* Brown Theme */
-        body.theme-brown {
-            --bg-primary: #FEF3C7;
-            --bg-secondary: #FDE68A;
-            --bg-card: #FCD34D;
-            --bg-hover: #FBBF24;
-            --primary: #92400E;
-            --primary-light: #B45309;
-            --secondary: #78350F;
-            --text-primary: #451A03;
-            --text-secondary: #78350F;
-            --text-muted: #B45309;
-            --border: #F59E0B;
-            --card-shadow: 0 4px 20px rgba(146, 64, 14, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --bg: #0D0D0D;
+            --bg2: #1A1A1A;
+            --bg3: #242424;
+            --text: #FFF;
+            --text2: #AAA;
+            --border: #333;
         }
 
         body {
-            font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            line-height: 1.6;
+            padding-top: 60px;
         }
 
-        body.en {
-            direction: ltr;
-            font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-light);
-        }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-hover);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #DC2626;
-        }
-
-        /* Theme Selector */
-        .theme-selector {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 8px;
-            padding: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-        }
-
-        body.en .theme-selector {
-            left: auto;
-            right: 20px;
-        }
-
-        body:not(.theme-default) .theme-selector,
-        body.theme-dark .theme-selector,
-        body.theme-gray .theme-selector,
-        body.theme-blue .theme-selector,
-        body.theme-green .theme-selector,
-        body.theme-brown .theme-selector {
-            display: flex;
-        }
-
-        .theme-selector.hidden {
-            display: none;
-        }
-
-        .theme-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .theme-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .theme-btn.active {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--bg-primary), 0 0 0 5px var(--primary);
-        }
-
-        .theme-btn-white { background: #FFFFFF; }
-        .theme-btn-dark { background: #0D0D0D; }
-        .theme-btn-gray { background: #9CA3AF; }
-        .theme-btn-blue { background: #3B82F6; }
-        .theme-btn-green { background: #059669; }
-        .theme-btn-brown { background: #B45309; }
-
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: var(--bg-secondary);
-        }
-
-        .auth-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 48px;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-logo h1 {
-            font-size: 48px;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .auth-logo p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper input {
-            width: 100%;
-            padding: 14px 48px 14px 16px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
-
-        body.en .input-wrapper input {
-            padding: 14px 16px 14px 48px;
-        }
-
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--bg-card);
-        }
-
-        .input-wrapper input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        body.en .input-icon {
-            right: auto;
-            left: 16px;
-        }
-
-        .toggle-password {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        body.en .toggle-password {
-            left: auto;
-            right: 16px;
-        }
-
-        .toggle-password:hover {
-            color: var(--primary);
-        }
-
-        .btn-auth {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 8px;
-        }
-
-        .btn-auth:hover {
-            background: var(--primary-light);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            color: var(--text-secondary);
-        }
-
-        .auth-footer a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .error-msg {
-            color: var(--danger);
-            font-size: 14px;
-            margin-top: 8px;
-            display: none;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-        }
-
-        .error-msg.show {
-            display: block;
-        }
-
-        .success-msg {
-            color: var(--text-primary);
-            font-size: 14px;
-            margin-top: 8px;
-            display: none;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-        }
-
-        .success-msg.show {
-            display: block;
-        }
-
-        .lang-toggle-auth {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-
-        body.en .lang-toggle-auth {
-            left: auto;
-            right: 20px;
-        }
-
-        .btn-lang {
-            padding: 10px 20px;
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .btn-lang:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .page { display: none; }
-        .page.active { display: block; }
-
-        .dashboard {
-            min-height: 100vh;
-        }
-
-        .header {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn-header {
-            padding: 10px 20px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .btn-header:hover {
-            background: var(--bg-hover);
-        }
-
-        .btn-logout {
-            background: var(--bg-primary);
-            color: var(--danger);
-            border: 1px solid var(--border);
-        }
-
-        .btn-logout:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        .main-content {
-            padding: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .quote-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 32px;
-            border-radius: 16px;
-            margin-bottom: 32px;
-            text-align: center;
-        }
-
-        .quote-text {
-            font-size: 20px;
-            font-style: italic;
-            margin-bottom: 12px;
-            line-height: 1.8;
-            color: var(--secondary);
-        }
-
-        .date-display {
-            text-align: center;
-            margin-bottom: 24px;
-            padding: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-        }
-
-        .date-display .day-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .date-display .full-date {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .greeting {
-            font-size: 18px;
-            margin-bottom: 24px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .pillar-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-
-        .pillar-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 4px;
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            background: var(--bg-hover);
-        }
-
-        .pillar-card[data-pillar="spirit"]::before { background: #9CA3AF; }
-        .pillar-card[data-pillar="career"]::before { background: #6B7280; }
-        .pillar-card[data-pillar="mind"]::before { background: #4B5563; }
-        .pillar-card[data-pillar="body"]::before { background: #374151; }
-        .pillar-card[data-pillar="social"]::before { background: #1F2937; }
-        .pillar-card[data-pillar="family"]::before { background: #D1D5DB; }
-        .pillar-card[data-pillar="finance"]::before { background: #9CA3AF; }
-        .pillar-card[data-pillar="self"]::before { background: #6B7280; }
-
-        .pillar-info h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .pillar-info .subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .pillar-progress {
-            margin: 16px 0;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: var(--bg-primary);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            background: var(--primary);
-        }
-
-        .pillar-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .journal-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .journal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .journal-header h2 {
-            font-size: 20px;
-            color: var(--primary);
-        }
-
-        .btn-add-journal {
-            padding: 10px 20px;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .btn-add-journal:hover {
-            background: var(--text-secondary);
-        }
-
-        .journal-entries {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .journal-entry {
-            padding: 16px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .journal-entry:hover {
-            border-color: var(--primary);
-        }
-
-        .journal-entry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .journal-date {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .journal-mood {
-            font-size: 24px;
-        }
-
-        .journal-content {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .modal-overlay {
+        /* Fixed Top Bar */
+        .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            height: 56px;
+        }
+
+        .top-bar h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .top-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .top-btn {
+            padding: 8px 14px;
+            background: var(--bg3);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .top-btn:hover { background: var(--border); }
+        .top-btn.danger { color: #CCC; }
+        .top-btn.danger:hover { background: #333; color: #FFF; }
+
+        /* Colors Dropdown */
+        .colors-menu {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 101;
+        }
+
+        .colors-menu.show { display: flex; }
+
+        .color-btn {
+            padding: 10px 20px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .color-btn:hover { background: var(--border); }
+        .color-btn.active { border-color: #555; background: var(--bg); }
+
+        /* Main Content */
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+
+        /* Quote */
+        .quote {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .quote p {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text2);
+        }
+
+        /* Date */
+        .date-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .date-day { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+        .date-full { font-size: 13px; color: var(--text2); }
+
+        /* Greeting */
+        .greeting {
+            text-align: center;
+            color: var(--text2);
+            margin-bottom: 28px;
+            font-size: 16px;
+        }
+
+        /* Pillars Grid */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .pillar {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pillar:hover { background: var(--bg3); }
+        .pillar h3 { font-size: 17px; margin-bottom: 2px; }
+        .pillar span { font-size: 12px; color: var(--text2); }
+        .pillar-bar { height: 5px; background: var(--border); border-radius: 3px; margin: 12px 0 8px; overflow: hidden; }
+        .pillar-fill { height: 100%; background: #555; border-radius: 3px; transition: width 0.5s; }
+        .pillar-stat { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+
+        /* Journal */
+        .journal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .journal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .journal-head h2 { font-size: 18px; }
+        .journal-add { padding: 8px 16px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.3s; }
+        .journal-add:hover { background: var(--border); }
+
+        .journal-list { max-height: 240px; overflow-y: auto; }
+
+        .entry {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .entry:hover { border-color: #444; }
+        .entry-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .entry-date { font-size: 13px; font-weight: 600; color: var(--text2); }
+        .entry-mood { font-size: 20px; }
+        .entry-content { font-size: 14px; color: var(--text2); }
+
+        .empty { text-align: center; padding: 40px; color: var(--text2); }
+
+        /* Modal */
+        .modal-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 200;
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-bg.show { display: flex; }
 
         .modal {
-            background: var(--bg-card);
+            background: var(--bg2);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 500px;
+            max-width: 420px;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalIn 0.3s ease;
         }
 
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal-header {
-            padding: 24px;
+        .modal-head {
+            padding: 18px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .modal-header h2 {
-            font-size: 20px;
-            color: var(--primary);
-        }
+        .modal-head h3 { font-size: 17px; }
+        .modal-close { width: 30px; height: 30px; background: var(--bg3); border: 1px solid var(--border); border-radius: 50%; color: var(--text); cursor: pointer; font-size: 14px; }
+        .modal-close:hover { background: #333; }
 
-        .btn-close {
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            transition: var(--transition);
-        }
+        .modal-body { padding: 18px; }
 
-        .btn-close:hover {
-            background: var(--danger);
-            color: white;
-        }
+        .form-group { margin-bottom: 14px; }
+        .form-label { display: block; margin-bottom: 6px; font-size: 14px; }
+        .form-input { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: inherit; font-size: 14px; }
+        .form-input:focus { outline: none; border-color: #444; }
+        textarea.form-input { min-height: 90px; resize: vertical; }
 
-        .modal-body {
-            padding: 24px;
-        }
+        .mood-row { display: flex; gap: 10px; justify-content: center; margin: 14px 0; }
+        .mood-opt { font-size: 26px; cursor: pointer; padding: 6px; border-radius: 50%; transition: all 0.3s; }
+        .mood-opt:hover, .mood-opt.selected { background: var(--bg3); transform: scale(1.2); }
 
-        .modal-body .form-group {
-            margin-bottom: 16px;
-        }
+        .submit-btn { width: 100%; padding: 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; color: var(--text); cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 600; transition: all 0.3s; }
+        .submit-btn:hover { background: var(--border); }
 
-        .modal-body input,
-        .modal-body textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 16px;
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
+        .tasks-list { max-height: 220px; overflow-y: auto; margin-bottom: 14px; }
 
-        .modal-body textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
+        .task { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg); border-radius: 8px; margin-bottom: 6px; }
+        .task input[type="checkbox"] { width: 18px; height: 18px; }
+        .task span { flex: 1; font-size: 14px; }
+        .task.done span { text-decoration: line-through; color: var(--text2); }
+        .task-del { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 11px; opacity: 0; }
+        .task:hover .task-del { opacity: 1; }
 
-        .modal-body input:focus,
-        .modal-body textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
+        .add-task { display: flex; gap: 8px; }
+        .add-task input { flex: 1; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 13px; }
+        .add-task input:focus { outline: none; border-color: #444; }
+        .add-task button { padding: 10px 16px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); cursor: pointer; font-family: inherit; font-weight: 600; }
+        .add-task button:hover { background: var(--border); }
 
-        .mood-selector {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 16px 0;
-        }
-
-        .mood-option {
-            font-size: 28px;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 8px;
-            border-radius: 50%;
-        }
-
-        .mood-option:hover,
-        .mood-option.selected {
-            background: var(--bg-hover);
-            transform: scale(1.2);
-        }
-
-        .tasks-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 16px;
-        }
-
-        .task-item {
-            display: flex;
+        /* Auth Pages */
+        .auth-page {
+            display: none;
+            min-height: calc(100vh - 60px);
             align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            transition: var(--transition);
-        }
-
-        .task-item:hover {
-            background: var(--bg-hover);
-        }
-
-        .task-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary);
-        }
-
-        .task-item span {
-            flex: 1;
-            color: var(--text-primary);
-        }
-
-        .task-item.completed span {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .btn-delete-task {
-            padding: 6px 10px;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .task-item:hover .btn-delete-task {
-            opacity: 1;
-        }
-
-        .add-task-form {
-            display: flex;
-            gap: 12px;
-        }
-
-        .add-task-form input {
-            flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        .add-task-form input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-add-task {
-            padding: 12px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .btn-add-task:hover {
-            background: var(--primary-light);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-        }
-
-        .confirm-modal {
-            text-align: center;
-        }
-
-        .confirm-modal p {
-            margin-bottom: 24px;
-            font-size: 18px;
-        }
-
-        .confirm-modal .btn-group {
-            display: flex;
-            gap: 12px;
             justify-content: center;
+            padding: 20px;
         }
 
-        @media (max-width: 768px) {
-            .pillars-grid {
-                grid-template-columns: 1fr;
-            }
+        .auth-page.active { display: flex; }
 
-            .auth-card {
-                padding: 32px 24px;
-            }
-
-            .modal {
-                margin: 10px;
-            }
-
-            .theme-selector {
-                bottom: 10px;
-                left: 10px;
-                padding: 8px;
-            }
-
-            body.en .theme-selector {
-                right: 10px;
-            }
+        .auth-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        .auth-logo { text-align: center; margin-bottom: 30px; }
+        .auth-logo h1 { font-size: 40px; font-weight: 700; margin-bottom: 6px; }
+        .auth-logo p { color: var(--text2); font-size: 14px; }
+
+        .auth-form { margin-bottom: 20px; }
+        .auth-error { color: #CCC; font-size: 13px; margin-top: 8px; display: none; padding: 10px; background: var(--bg); border-radius: 8px; }
+        .auth-error.show { display: block; }
+        .auth-success { color: var(--text2); font-size: 13px; margin-top: 8px; display: none; padding: 10px; background: var(--bg); border-radius: 8px; }
+        .auth-success.show { display: block; }
+
+        .auth-foot { text-align: center; color: var(--text2); font-size: 14px; }
+        .auth-foot a { color: var(--text2); cursor: pointer; text-decoration: none; }
+        .auth-foot a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .pillars { grid-template-columns: 1fr; }
+            .top-bar { padding: 10px 14px; }
+            .top-bar h1 { font-size: 18px; }
+            .top-btn { padding: 6px 10px; font-size: 12px; }
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     </style>
 </head>
 <body>
-    <div class="lang-toggle-auth page active" id="langToggleLogin">
-        <button class="btn-lang" onclick="toggleAuthLang()">
-            <span id="authLangText">EN</span>
-        </button>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <h1>خير</h1>
+        <div class="top-btns">
+            <button class="top-btn" onclick="toggleColors()">الألوان</button>
+            <button class="top-btn" onclick="toggleLang()"><span id="langText">EN</span></button>
+            <button class="top-btn danger" onclick="logout()">خروج</button>
+        </div>
+    </div>
+
+    <!-- Colors Menu -->
+    <div class="colors-menu" id="colorsMenu">
+        <button class="color-btn active" onclick="setColor('dark')">أسود</button>
+        <button class="color-btn" onclick="setColor('white')">أبيض</button>
+        <button class="color-btn" onclick="setColor('gray')">رمادي</button>
     </div>
 
     <!-- Login Page -->
-    <div class="auth-container page active" id="loginPage">
+    <div class="auth-page active" id="loginPage">
         <div class="auth-card">
             <div class="auth-logo">
                 <h1>خير</h1>
-                <p id="loginSubtitle">لإدارة يومك بشكل أفضل</p>
+                <p id="loginSub">لإدارة يومك بشكل أفضل</p>
             </div>
-
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <form class="auth-form" onsubmit="doLogin(event)">
                 <div class="form-group">
-                    <label id="emailLabel">البريد الإلكتروني</label>
-                    <div class="input-wrapper">
-                        <input type="email" id="emailInput" placeholder="example@email.com" required>
-                    </div>
+                    <label class="form-label" id="emailLbl">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" id="emailIn" placeholder="example@email.com" required>
                 </div>
-
                 <div class="form-group">
-                    <label id="passwordLabel">كلمة المرور</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="passwordInput" placeholder="••••••••" required>
-                        <span class="toggle-password" onclick="togglePassword()">👁️</span>
-                    </div>
+                    <label class="form-label" id="passLbl">كلمة المرور</label>
+                    <input type="password" class="form-input" id="passIn" placeholder="••••••••" required>
                 </div>
-
-                <div id="loginError" class="error-msg"></div>
-
-                <button type="submit" class="btn-auth" id="loginBtnText">تسجيل الدخول</button>
+                <div class="auth-error" id="loginErr"></div>
+                <button type="submit" class="submit-btn" id="loginBtn">تسجيل الدخول</button>
             </form>
-
-            <div class="auth-footer">
-                <a onclick="showPage('forgotPage')" id="forgotLink">نسيت كلمة المرور؟</a>
+            <div class="auth-foot">
+                <a onclick="showPage('forgotPage')" id="forgotLnk">نسيت كلمة المرور؟</a>
                 <br><br>
-                <span id="noAccountText">ليس لديك حساب؟</span>
-                <a onclick="showPage('registerPage')" id="registerLink"> إنشاء حساب جديد</a>
+                <span id="noAcc">ليس لديك حساب؟</span>
+                <a onclick="showPage('registerPage')" id="regLnk"> إنشاء حساب</a>
             </div>
         </div>
     </div>
 
     <!-- Register Page -->
-    <div class="auth-container page" id="registerPage">
+    <div class="auth-page" id="registerPage">
         <div class="auth-card">
             <div class="auth-logo">
                 <h1>خير</h1>
-                <p id="registerSubtitle">أنشئ حسابك الجديد</p>
+                <p id="regSub">أنشئ حسابك الجديد</p>
             </div>
-
-            <form id="registerForm" onsubmit="handleRegister(event)">
+            <form class="auth-form" onsubmit="doRegister(event)">
                 <div class="form-group">
-                    <label id="nameLabel">الاسم</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="nameInput" placeholder="اسمك الكامل" required>
-                    </div>
+                    <label class="form-label" id="nameLbl">الاسم</label>
+                    <input type="text" class="form-input" id="nameIn" placeholder="اسمك الكامل" required>
                 </div>
-
                 <div class="form-group">
-                    <label id="regEmailLabel">البريد الإلكتروني</label>
-                    <div class="input-wrapper">
-                        <input type="email" id="regEmailInput" placeholder="example@email.com" required>
-                    </div>
+                    <label class="form-label" id="regEmailLbl">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" id="regEmailIn" placeholder="example@email.com" required>
                 </div>
-
                 <div class="form-group">
-                    <label id="regPasswordLabel">كلمة المرور</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="regPasswordInput" placeholder="8 أحرف على الأقل" required>
-                    </div>
+                    <label class="form-label" id="regPassLbl">كلمة المرور</label>
+                    <input type="password" class="form-input" id="regPassIn" placeholder="8 أحرف على الأقل" required>
                 </div>
-
                 <div class="form-group">
-                    <label id="confirmPasswordLabel">تأكيد كلمة المرور</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="confirmPasswordInput" placeholder="أعد كتابة كلمة المرور" required>
-                    </div>
+                    <label class="form-label" id="confirmLbl">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-input" id="confirmIn" placeholder="أعد كتابة كلمة المرور" required>
                 </div>
-
-                <div id="registerError" class="error-msg"></div>
-                <div id="registerSuccess" class="success-msg"></div>
-
-                <button type="submit" class="btn-auth" id="registerBtnText">إنشاء الحساب</button>
+                <div class="auth-error" id="regErr"></div>
+                <div class="auth-success" id="regSuccess"></div>
+                <button type="submit" class="submit-btn" id="regBtn">إنشاء الحساب</button>
             </form>
-
-            <div class="auth-footer">
-                <span id="hasAccountText">لديك حساب؟</span>
-                <a onclick="showPage('loginPage')" id="loginLink"> تسجيل الدخول</a>
+            <div class="auth-foot">
+                <span id="hasAcc">لديك حساب؟</span>
+                <a onclick="showPage('loginPage')" id="loginLnk"> تسجيل الدخول</a>
             </div>
         </div>
     </div>
 
-    <!-- Forgot Password Page -->
-    <div class="auth-container page" id="forgotPage">
+    <!-- Forgot Page -->
+    <div class="auth-page" id="forgotPage">
         <div class="auth-card">
             <div class="auth-logo">
                 <h1>خير</h1>
-                <p id="forgotSubtitle">استعادة كلمة المرور</p>
+                <p id="forgotSub">استعادة كلمة المرور</p>
             </div>
-
-            <form id="forgotForm" onsubmit="handleForgotPassword(event)">
+            <form class="auth-form" onsubmit="doForgot(event)">
                 <div class="form-group">
-                    <label id="forgotEmailLabel">البريد الإلكتروني</label>
-                    <div class="input-wrapper">
-                        <input type="email" id="forgotEmailInput" placeholder="example@email.com" required>
-                    </div>
+                    <label class="form-label" id="forgotEmailLbl">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" id="forgotEmailIn" placeholder="example@email.com" required>
                 </div>
-
-                <div id="forgotError" class="error-msg"></div>
-                <div id="forgotSuccess" class="success-msg"></div>
-
-                <button type="submit" class="btn-auth" id="forgotBtnText">إرسال رابط الاستعادة</button>
+                <div class="auth-error" id="forgotErr"></div>
+                <div class="auth-success" id="forgotSuccess"></div>
+                <button type="submit" class="submit-btn" id="forgotBtn">إرسال</button>
             </form>
-
-            <div class="auth-footer">
-                <span id="rememberText">تذكرت كلمة المرور؟</span>
-                <a onclick="showPage('loginPage')" id="backLoginLink"> العودة لتسجيل الدخول</a>
+            <div class="auth-foot">
+                <a onclick="showPage('loginPage')" id="backLnk"> العودة لتسجيل الدخول</a>
             </div>
         </div>
     </div>
 
     <!-- Dashboard -->
-    <div class="dashboard page" id="dashboard">
-        <header class="header">
-            <h1>خير</h1>
-            <div class="header-left">
-                <button class="btn-header" onclick="toggleDashboardLang()">
-                    <span id="dashLangText">EN</span>
-                </button>
-                <button class="btn-header btn-logout" onclick="logout()">
-                    <span id="logoutText">خروج</span>
-                </button>
+    <div class="main" id="dashboard" style="display: none;">
+        <div class="quote">
+            <p id="quoteText">"من عرف نفسه فقد عرف ربه"</p>
+        </div>
+
+        <div class="date-box">
+            <div class="date-day" id="dayName">الخميس</div>
+            <div class="date-full" id="fullDate">23 يناير 2026</div>
+        </div>
+
+        <p class="greeting" id="greeting">صباح الخير! اليوم فرصة جديدة للتقدم</p>
+
+        <div class="pillars" id="pillarsGrid"></div>
+
+        <div class="journal">
+            <div class="journal-head">
+                <h2><span id="journalTitle">التدوين اليومي</span></h2>
+                <button class="journal-add" onclick="openJournal()">+ إضافة</button>
             </div>
-        </header>
-
-        <main class="main-content">
-            <div class="quote-section">
-                <p class="quote-text" id="quoteText">"لا تستسلم، فالبداية دائماً هي الأصعب"</p>
-            </div>
-
-            <div class="date-display">
-                <div class="day-name" id="dayName">الخميس</div>
-                <div class="full-date" id="fullDate">23 يناير 2026</div>
-            </div>
-
-            <p class="greeting" id="greeting">صباح الخير! اليوم فرصة جديدة للتقدم</p>
-
-            <div class="pillars-grid" id="pillarsGrid"></div>
-
-            <section class="journal-section">
-                <div class="journal-header">
-                    <h2><span id="journalTitle">التدوين اليومي</span></h2>
-                    <button class="btn-add-journal" onclick="openJournalModal()">
-                        <span id="addJournalText">+ إضافة تدوينة</span>
-                    </button>
-                </div>
-                <div class="journal-entries" id="journalEntries"></div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Theme Selector -->
-    <div class="theme-selector" id="themeSelector">
-        <button class="theme-btn theme-btn-white active" data-theme="default" title="أبيض" onclick="changeTheme('default')"></button>
-        <button class="theme-btn theme-btn-dark" data-theme="dark" title="أسود" onclick="changeTheme('dark')"></button>
-        <button class="theme-btn theme-btn-gray" data-theme="gray" title="رمادي" onclick="changeTheme('gray')"></button>
-        <button class="theme-btn theme-btn-blue" data-theme="blue" title="أزرق" onclick="changeTheme('blue')"></button>
-        <button class="theme-btn theme-btn-green" data-theme="green" title="أخضر" onclick="changeTheme('green')"></button>
-        <button class="theme-btn theme-btn-brown" data-theme="brown" title="بني" onclick="changeTheme('brown')"></button>
+            <div class="journal-list" id="journalList"></div>
+        </div>
     </div>
 
     <!-- Pillar Modal -->
-    <div class="modal-overlay" id="pillarModal">
+    <div class="modal-bg" id="pillarModal">
         <div class="modal">
-            <div class="modal-header">
-                <h2 id="pillarModalTitle">الروح</h2>
-                <button class="btn-close" onclick="closePillarModal()">✕</button>
+            <div class="modal-head">
+                <h3 id="pillarTitle">الروح</h3>
+                <button class="modal-close" onclick="closePillar()">✕</button>
             </div>
             <div class="modal-body">
                 <div class="tasks-list" id="tasksList"></div>
-                <div class="add-task-form">
-                    <input type="text" id="newTaskInput" placeholder="أضف مهمة جديدة...">
-                    <button class="btn-add-task" onclick="addTask()">
-                        <span id="addTaskText">إضافة</span>
-                    </button>
+                <div class="add-task">
+                    <input type="text" id="taskInput" placeholder="أضف مهمة...">
+                    <button onclick="addTask()">إضافة</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Journal Modal -->
-    <div class="modal-overlay" id="journalModal">
+    <div class="modal-bg" id="journalModal">
         <div class="modal">
-            <div class="modal-header">
-                <h2><span id="journalModalTitle">تدوينة جديدة</span></h2>
-                <button class="btn-close" onclick="closeJournalModal()">✕</button>
+            <div class="modal-head">
+                <h3><span id="journalModalTitle">تدوينة جديدة</span></h3>
+                <button class="modal-close" onclick="closeJournal()">✕</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label id="journalDateLabel">التاريخ</label>
-                    <input type="date" id="journalDate">
+                    <label class="form-label" id="dateLbl">التاريخ</label>
+                    <input type="date" class="form-input" id="journalDate">
                 </div>
                 <div class="form-group">
-                    <label id="moodLabel">كيف تشعر اليوم؟</label>
-                    <div class="mood-selector">
-                        <span class="mood-option" data-mood="great" onclick="selectMood(this)">😄</span>
-                        <span class="mood-option" data-mood="good" onclick="selectMood(this)">🙂</span>
-                        <span class="mood-option" data-mood="okay" onclick="selectMood(this)">😐</span>
-                        <span class="mood-option" data-mood="bad" onclick="selectMood(this)">😔</span>
-                        <span class="mood-option" data-mood="terrible" onclick="selectMood(this)">😢</span>
+                    <label class="form-label" id="moodLbl">المزاج</label>
+                    <div class="mood-row">
+                        <span class="mood-opt" data-mood="great" onclick="pickMood(this)">😀</span>
+                        <span class="mood-opt" data-mood="good" onclick="pickMood(this)">🙂</span>
+                        <span class="mood-opt" data-mood="okay" onclick="pickMood(this)">😐</span>
+                        <span class="mood-opt" data-mood="bad" onclick="pickMood(this)">😔</span>
+                        <span class="mood-opt" data-mood="terrible" onclick="pickMood(this)">😢</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label id="contentLabel">محتوى التدوينة</label>
-                    <textarea id="journalContent" placeholder="اكتب أفكارك ومشاعرك هنا..."></textarea>
+                    <label class="form-label" id="contentLbl">المحتوى</label>
+                    <textarea class="form-input" id="journalContent" placeholder="اكتب هنا..."></textarea>
                 </div>
-                <button class="btn-auth" onclick="saveJournal()">
-                    <span id="saveJournalText">حفظ التدوينة</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal-overlay" id="deleteModal">
-        <div class="modal confirm-modal">
-            <div class="modal-header">
-                <h2><span id="deleteTitle">تأكيد الحذف</span></h2>
-                <button class="btn-close" onclick="closeDeleteModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <p id="deleteMessage">هل أنت متأكد من حذف هذه التدوينة؟</p>
-                <div class="btn-group">
-                    <button class="btn btn-danger" onclick="confirmDelete()">
-                        <span id="confirmDeleteText">نعم، احذف</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="closeDeleteModal()">
-                        <span id="cancelDeleteText">إلغاء</span>
-                    </button>
-                </div>
+                <button class="submit-btn" onclick="saveJournal()">حفظ</button>
             </div>
         </div>
     </div>
 
     <script>
-        const pillars = [
-            { id: 'spirit', nameAr: 'الروح', nameEn: 'Soul', color: '#9CA3AF' },
-            { id: 'career', nameAr: 'المهنة', nameEn: 'Career', color: '#6B7280' },
-            { id: 'mind', nameAr: 'العقل', nameEn: 'Mind', color: '#4B5563' },
-            { id: 'body', nameAr: 'الجسد', nameEn: 'Body', color: '#374151' },
-            { id: 'social', nameAr: 'الاجتماع', nameEn: 'Social', color: '#1F2937' },
-            { id: 'family', nameAr: 'العائلة', nameEn: 'Family', color: '#D1D5DB' },
-            { id: 'finance', nameAr: 'المال', nameEn: 'Finance', color: '#9CA3AF' },
-            { id: 'self', nameAr: 'النفس', nameEn: 'Self', color: '#6B7280' }
-        ];
-
         const quotes = [
-            "لا تستسلم، فالبداية دائماً هي الأصعب",
-            "العلم أساس كل نجاح",
-            "من طلب العلا سهر الليالي",
-            "التفكير الإيجابي يفتح كل الأبواب",
-            "الفشل هو مجرد بداية جديدة بأسلوب مختلف",
-            "القراءة للعقل كالرياضة للجسد",
-            "من لا يتعلم من الماضي محكوم عليه بتكراره",
-            "المعرفة قوة، والتعلم ضرورة",
-            "العمل الجاد يتفوق على الموهبة وحدها",
-            "الطموح لا يعرف المستحيل",
-            "كن أنت التغيير الذي تريد أن تراه",
-            "العظمة لا تأتي من الراحة",
-            "الأحلام لا تتحقق بالتمني بل بالعمل",
-            "لا تنتظر الفرصة، اصنعها",
-            "الإنجاز يبدأ بخطوة واحدة",
-            "ثق بنفسك",
-            "النجاح ليس نهاية الطريق، والفشل ليس نهاية العالم",
-            "العبادة طريق إلى السعادة الحقيقية",
-            "الصبر مفتاح الفرج",
-            "كل يوم هو فرصة جديدة"
+            "من عرف نفسه فقد عرف ربه", "العلم أمام العمل", "عظمة عقلك تخلق حسادك", "الشك بداية الحكمة", "الوقت ينسي الألم",
+            "أنا أفكر إذن أنا موجود", "الخيال أهم من المعرفة", "المعرفة قوة", "العدل أساس الملك", "نحن ما نفعله مراراً",
+            "الحياة التي لا تُختبر لا تستحق العيش", "الضربة التي لا تقتلك تقويك", "العقل قوة لا يستهان بها", "السعادة تأتي من أفعالك", "أفضل طريقة للتنبؤ بالمستقبل هي اختراعه",
+            "الفقر والد الجريمة", "الجاهل يؤكد والعالم يشك", "ابدأ حيث أنت واستخدم ما لديك", "الانضباط جسر الإنجازات", "عقلك حديقة وأفكارك بذور",
+            "كن أنت التغيير الذي تريده", "الصمت قوة", "الفشل جزء من النجاح", "الإرادة تقصر المسافات", "السر في البدء",
+            "الثروة هي القدرة على عيش الحياة", "الجمال في البساطة", "استثمر في نفسك أولاً", "المال خادم جيد وسيد سيء", "الراحة عدو الإنجاز",
+            "التغيير يبدأ من الداخل", "العلم ترياق الجهل", "العمل الشاق يهزم الموهبة", "كل إنجاز بدأ بقرار المحاولة", "من أراد نور القلب فليترك ما لا يعنيه",
+            "الناس من خوف الذل في ذل", "كل عز لا يؤيده علم فإلى ذل يصير", "النفس إن لم تشغلها بالحق شغلتك بالباطل", "العلم بلا عمل كالشجر بلا ثمر", "الجمال يكمن في الروح",
+            "المال لا يشتري السعادة بل يريح المعاناة", "الحياة مدرسة والناس دروس", "كن صبوراً مع نفسك فالنمو بطيء", "الأهداف أحلام بمواعيد", "لا تشغل بالك بمن لا يهتم بك",
+            "الناجحون يصنعون بالتعب", "عظمة الإنسان في قلبه لا منصبه", "العقل كالمظلة لا يعمل إلا وهو مفتوح", "البساطة قمة التعقيد", "تكلم لكي أراك",
+            "السر في النجاح هو الثبات على الهدف", "العلم هو الخير الوحيد", "من لا يخطئ لا يبدع", "لا تقاس العقول بالأعمار", "الخوف من الفشل هو الفشل",
+            "ابتسم فالحياة قصيرة", "ركز على ما تملك", "الصديق الحقيقي يرفعك", "الجمال في الروح والجسد وعاء", "تعلم قول لا لما يضيع وقتك",
+            "النجاح يبدأ من حيث انتهى الآخرون", "لا تنتظر الفرصة بل اصنعها", "العقل الفارغ مختبر للشيطان", "كن قوياً لتواجه الحقيقة", "التسامح سلاح الأقوياء",
+            "المستقبل لمن يؤمن بجمال أحلامه", "المال يذهب والمعرفة تبقى", "التواضع سمة العظماء", "لا تجعل الماضي يسرق الحاضر", "الفكر بذور الفعل",
+            "الصدق فصل الحكمة الأول", "نحتاج للقليل من اللطف", "الإنجاز العظيم يتطلب وقتاً", "كن لطيفاً فالكل يقاتل في معركة ما", "الإبداع رؤية ما لا يراه غيرك",
+            "المنطق يوصلك من أ إلى ب والخيال لكل مكان", "الخبرة مدرسة رسومها غالية", "العمل المنظم يقتل التوتر", "النمو يحدث خارج منطقة الراحة", "الحياة مغامرة أو لا شيء",
+            "لا تحكم على الكتاب من غلافه", "الهدوء لغة العقلاء", "توقف عن الشكوى وابدأ بالتغيير", "السعادة معدية فانشرها", "العلم يرفع بيوتاً لا عماد لها",
+            "النجاح هو أن تحب ما تفعل", "لا مستحيل في قاموس الأقوياء", "أنت حيث قادتك أفكارك", "تطبيق خير بوابتك للأفضل", "الوقت هو العملة الوحيدة التي تملكها",
+            "أعظم خطأ هو الخوف من الخطأ", "لا تقارن بدايتك بمنتصف الآخرين", "الحق يحتاج لقوة تحميه", "بالعلم تجذب العقول وبالأخلاق تجذب القلوب", "من لم يتجدد يتبدد",
+            "الإصرار يغلب الذكاء", "القراءة تمنحنا مكاناً نذهب إليه", "كن أنت ولا تكن هم", "الحياة ليست بحثاً عن الذات بل صنعاً لها", "خير الناس أنفعهم للناس"
         ];
 
-        const translations = {
+        const pillars = [
+            { id: 'spirit', name: 'الروح', en: 'Soul' },
+            { id: 'career', name: 'المهنة', en: 'Career' },
+            { id: 'mind', name: 'العقل', en: 'Mind' },
+            { id: 'body', name: 'الجسد', en: 'Body' },
+            { id: 'social', name: 'الاجتماع', en: 'Social' },
+            { id: 'family', name: 'العائلة', en: 'Family' },
+            { id: 'finance', name: 'المال', en: 'Finance' },
+            { id: 'self', name: 'النفس', en: 'Self' }
+        ];
+
+        const t = {
             ar: {
-                loginSubtitle: 'لإدارة يومك بشكل أفضل',
-                registerSubtitle: 'أنشئ حسابك الجديد',
-                forgotSubtitle: 'استعادة كلمة المرور',
-                emailLabel: 'البريد الإلكتروني',
-                passwordLabel: 'كلمة المرور',
-                nameLabel: 'الاسم',
-                regEmailLabel: 'البريد الإلكتروني',
-                regPasswordLabel: 'كلمة المرور',
-                confirmPasswordLabel: 'تأكيد كلمة المرور',
-                forgotEmailLabel: 'البريد الإلكتروني',
-                loginBtn: 'تسجيل الدخول',
-                registerBtn: 'إنشاء الحساب',
-                forgotBtn: 'إرسال رابط الاستعادة',
-                forgotLink: 'نسيت كلمة المرور؟',
-                noAccountText: 'ليس لديك حساب؟',
-                registerLink: ' إنشاء حساب جديد',
-                hasAccountText: 'لديك حساب؟',
-                loginLink: ' تسجيل الدخول',
-                rememberText: 'تذكرت كلمة المرور؟',
-                backLoginLink: ' العودة لتسجيل الدخول',
-                logout: 'خروج',
-                journalTitle: 'التدوين اليومي',
-                addJournal: '+ إضافة تدوينة',
-                addTask: 'إضافة',
-                journalModalTitle: 'تدوينة جديدة',
-                journalDateLabel: 'التاريخ',
-                moodLabel: 'كيف تشعر اليوم؟',
-                contentLabel: 'محتوى التدوينة',
-                saveJournal: 'حفظ التدوينة',
-                greeting: 'صباح الخير! اليوم فرصة جديدة للتقدم',
-                eveningGreeting: 'مساء الخير! راجع إنجازاتك اليوم',
-                newTaskPlaceholder: 'أضف مهمة جديدة...',
-                noTasks: 'لا توجد مهام بعد',
-                noJournals: 'لا توجد تدوينات بعد',
-                errorEmailRequired: 'البريد الإلكتروني مطلوب',
-                errorPasswordRequired: 'كلمة المرور مطلوبة',
-                errorPasswordShort: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
-                errorPasswordMatch: 'كلمة المرور غير متطابقة',
-                errorEmailExists: 'البريد الإلكتروني مستخدم بالفعل',
-                errorInvalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
-                errorNameRequired: 'الاسم مطلوب',
-                errorForgotEmail: 'هذا البريد الإلكتروني غير مسجل',
-                successRegister: 'تم إنشاء الحساب بنجاح!',
-                successForgot: 'تم إرسال رابط استعادة كلمة المرور إلى بريدك',
+                loginSub: 'لإدارة يومك بشكل أفضل',
+                regSub: 'أنشئ حسابك الجديد',
+                forgotSub: 'استعادة كلمة المرور',
+                emailLbl: 'البريد الإلكتروني', passLbl: 'كلمة المرور', nameLbl: 'الاسم',
+                regEmailLbl: 'البريد الإلكتروني', regPassLbl: 'كلمة المرور', confirmLbl: 'تأكيد كلمة المرور',
+                forgotEmailLbl: 'البريد الإلكتروني',
+                loginBtn: 'تسجيل الدخول', regBtn: 'إنشاء الحساب', forgotBtn: 'إرسال',
+                forgotLnk: 'نسيت كلمة المرور؟', noAcc: 'ليس لديك حساب؟', regLnk: ' إنشاء حساب',
+                hasAcc: 'لديك حساب؟', loginLnk: ' تسجيل الدخول', backLnk: ' العودة لتسجيل الدخول',
+                journalTitle: 'التدوين اليومي', dateLbl: 'التاريخ', moodLbl: 'المزاج', contentLbl: 'المحتوى',
+                greeting: 'صباح الخير! اليوم فرصة جديدة للتقدم', eveningGreeting: 'مساء الخير! راجع إنجازاتك اليوم',
+                noTasks: 'لا توجد مهام بعد', noJournals: 'لا توجد تدوينات بعد',
+                errEmail: 'البريد الإلكتروني مطلوب', errPass: 'كلمة المرور مطلوبة',
+                errShort: '8 أحرف على الأقل', errMatch: 'كلمة المرور غير متطابقة',
+                errExists: 'البريد مستخدم', errWrong: 'بيانات غير صحيحة', errName: 'الاسم مطلوب',
+                errNotFound: 'البريد غير مسجل', successReg: 'تم إنشاء الحساب!', successForgot: 'تم الإرسال لبريدك',
                 dayNames: ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
                 months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
             },
             en: {
-                loginSubtitle: 'For better day management',
-                registerSubtitle: 'Create your new account',
-                forgotSubtitle: 'Recover your password',
-                emailLabel: 'Email Address',
-                passwordLabel: 'Password',
-                nameLabel: 'Full Name',
-                regEmailLabel: 'Email Address',
-                regPasswordLabel: 'Password',
-                confirmPasswordLabel: 'Confirm Password',
-                forgotEmailLabel: 'Email Address',
-                loginBtn: 'Sign In',
-                registerBtn: 'Create Account',
-                forgotBtn: 'Send Reset Link',
-                forgotLink: 'Forgot Password?',
-                noAccountText: "Don't have an account?",
-                registerLink: ' Sign up',
-                hasAccountText: 'Already have an account?',
-                loginLink: ' Sign in',
-                rememberText: 'Remember your password?',
-                backLoginLink: ' Back to login',
-                logout: 'Logout',
-                journalTitle: 'Daily Journal',
-                addJournal: '+ Add Entry',
-                addTask: 'Add',
-                journalModalTitle: 'New Entry',
-                journalDateLabel: 'Date',
-                moodLabel: 'How are you feeling today?',
-                contentLabel: 'Content',
-                saveJournal: 'Save Entry',
-                greeting: 'Good Morning! Today is a new opportunity to grow',
-                eveningGreeting: 'Good Evening! Review your achievements',
-                newTaskPlaceholder: 'Add a new task...',
-                noTasks: 'No tasks yet',
-                noJournals: 'No entries yet',
-                errorEmailRequired: 'Email is required',
-                errorPasswordRequired: 'Password is required',
-                errorPasswordShort: 'Password must be at least 8 characters',
-                errorPasswordMatch: 'Passwords do not match',
-                errorEmailExists: 'Email already registered',
-                errorInvalidCredentials: 'Invalid email or password',
-                errorNameRequired: 'Name is required',
-                errorForgotEmail: 'This email is not registered',
-                successRegister: 'Account created successfully!',
-                successForgot: 'Password reset link sent to your email',
+                loginSub: 'For better day management',
+                regSub: 'Create your new account',
+                forgotSub: 'Recover your password',
+                emailLbl: 'Email', passLbl: 'Password', nameLbl: 'Name',
+                regEmailLbl: 'Email', regPassLbl: 'Password', confirmLbl: 'Confirm Password',
+                forgotEmailLbl: 'Email',
+                loginBtn: 'Sign In', regBtn: 'Create Account', forgotBtn: 'Send',
+                forgotLnk: 'Forgot Password?', noAcc: "Don't have an account?", regLnk: ' Sign up',
+                hasAcc: 'Already have an account?', loginLnk: ' Sign in', backLnk: ' Back to login',
+                journalTitle: 'Daily Journal', dateLbl: 'Date', moodLbl: 'Mood', contentLbl: 'Content',
+                greeting: 'Good Morning! Today is a new opportunity', eveningGreeting: 'Good Evening! Review your achievements',
+                noTasks: 'No tasks yet', noJournals: 'No entries yet',
+                errEmail: 'Email is required', errPass: 'Password is required',
+                errShort: 'At least 8 characters', errMatch: 'Passwords do not match',
+                errExists: 'Email already registered', errWrong: 'Invalid credentials', errName: 'Name is required',
+                errNotFound: 'Email not registered', successReg: 'Account created!', successForgot: 'Sent to your email',
                 dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             }
         };
 
-        let currentLang = localStorage.getItem('khayrLang') || 'ar';
-        let currentTheme = localStorage.getItem('khayrTheme') || 'default';
-        let currentUser = localStorage.getItem('khayrCurrentUser');
+        let lang = localStorage.getItem('khayrLang') || 'ar';
+        let color = localStorage.getItem('khayrColor') || 'dark';
+        let user = localStorage.getItem('khayrUser');
         let currentPillar = null;
-        let selectedMood = null;
-        let editingJournalId = null;
-        let deleteTarget = null;
-        let currentQuoteIndex = 0;
+        let currentMood = null;
+        let editJournalId = null;
 
         function init() {
-            applyTheme(currentTheme);
+            applyColor(color);
+            applyLang(lang);
 
             if (!localStorage.getItem('khayrUsers')) {
-                localStorage.setItem('khayrUsers', JSON.stringify([
-                    { email: 'demo@khayr.com', password: 'demo123', name: 'مستخدم تجريبي' }
-                ]));
+                localStorage.setItem('khayrUsers', JSON.stringify([{ email: 'demo@khayr.com', password: 'demo123', name: 'مستخدم' }]));
             }
-
             if (!localStorage.getItem('khayrTasks')) {
-                const initialTasks = {};
-                pillars.forEach(p => initialTasks[p.id] = []);
-                localStorage.setItem('khayrTasks', JSON.stringify(initialTasks));
+                const tasks = {};
+                pillars.forEach(p => tasks[p.id] = []);
+                localStorage.setItem('khayrTasks', JSON.stringify(tasks));
             }
-
             if (!localStorage.getItem('khayrJournals')) {
                 localStorage.setItem('khayrJournals', JSON.stringify([]));
             }
 
-            applyLanguage(currentLang);
+            if (user) showDash(); else showPage('loginPage');
 
-            if (currentUser) {
-                showDashboard();
-            } else {
-                showPage('loginPage');
-            }
-
+            renderPillars();
+            renderJournals();
+            updateDate();
+            rotateQuote();
             setInterval(rotateQuote, 30000);
         }
 
-        function changeTheme(theme) {
-            currentTheme = theme;
-            localStorage.setItem('khayrTheme', theme);
-            applyTheme(theme);
+        function toggleColors() {
+            document.getElementById('colorsMenu').classList.toggle('show');
+        }
 
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.theme === theme);
+        function setColor(c) {
+            color = c;
+            localStorage.setItem('khayrColor', c);
+            applyColor(c);
+            document.getElementById('colorsMenu').classList.remove('show');
+        }
+
+        function applyColor(c) {
+            const r = document.documentElement;
+            if (c === 'white') {
+                r.style.setProperty('--bg', '#FFF');
+                r.style.setProperty('--bg2', '#F5F5F5');
+                r.style.setProperty('--bg3', '#EEE');
+                r.style.setProperty('--text', '#111');
+                r.style.setProperty('--text2', '#555');
+                r.style.setProperty('--border', '#DDD');
+            } else if (c === 'gray') {
+                r.style.setProperty('--bg', '#2D2D2D');
+                r.style.setProperty('--bg2', '#3D3D3D');
+                r.style.setProperty('--bg3', '#4D4D4D');
+                r.style.setProperty('--text', '#F0F0F0');
+                r.style.setProperty('--text2', '#AAA');
+                r.style.setProperty('--border', '#555');
+            } else {
+                r.style.setProperty('--bg', '#0D0D0D');
+                r.style.setProperty('--bg2', '#1A1A1A');
+                r.style.setProperty('--bg3', '#242424');
+                r.style.setProperty('--text', '#FFF');
+                r.style.setProperty('--text2', '#AAA');
+                r.style.setProperty('--border', '#333');
+            }
+            document.querySelectorAll('.color-btn').forEach(b => {
+                const name = b.textContent;
+                b.classList.toggle('active', 
+                    (name === 'أسود' && c === 'dark') || 
+                    (name === 'أبيض' && c === 'white') || 
+                    (name === 'رمادي' && c === 'gray'));
             });
         }
 
-        function applyTheme(theme) {
-            document.body.className = '';
-            if (theme !== 'default') {
-                document.body.classList.add('theme-' + theme);
+        function toggleLang() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('khayrLang', lang);
+            applyLang(lang);
+            applyColor(color);
+            if (user) {
+                updateDate();
+                renderPillars();
+                renderJournals();
             }
+        }
+
+        function applyLang(l) {
+            const tr = t[l];
+            document.body.dir = l === 'ar' ? 'rtl' : 'ltr';
+            document.body.classList.toggle('en', l === 'en');
+            document.getElementById('langText').textContent = l === 'ar' ? 'EN' : 'عربي';
+            document.getElementById('loginSub').textContent = tr.loginSub;
+            document.getElementById('emailLbl').textContent = tr.emailLbl;
+            document.getElementById('passLbl').textContent = tr.passLbl;
+            document.getElementById('loginBtn').textContent = tr.loginBtn;
+            document.getElementById('forgotLnk').textContent = tr.forgotLnk;
+            document.getElementById('noAcc').textContent = tr.noAcc;
+            document.getElementById('regLnk').textContent = tr.regLnk;
+            document.getElementById('regSub').textContent = tr.regSub;
+            document.getElementById('nameLbl').textContent = tr.nameLbl;
+            document.getElementById('regEmailLbl').textContent = tr.regEmailLbl;
+            document.getElementById('regPassLbl').textContent = tr.regPassLbl;
+            document.getElementById('confirmLbl').textContent = tr.confirmLbl;
+            document.getElementById('regBtn').textContent = tr.regBtn;
+            document.getElementById('hasAcc').textContent = tr.hasAcc;
+            document.getElementById('loginLnk').textContent = tr.loginLnk;
+            document.getElementById('forgotSub').textContent = tr.forgotSub;
+            document.getElementById('forgotEmailLbl').textContent = tr.forgotEmailLbl;
+            document.getElementById('forgotBtn').textContent = tr.forgotBtn;
+            document.getElementById('backLnk').textContent = tr.backLnk;
+            document.getElementById('journalTitle').textContent = tr.journalTitle;
+            document.getElementById('dateLbl').textContent = tr.dateLbl;
+            document.getElementById('moodLbl').textContent = tr.moodLbl;
+            document.getElementById('contentLbl').textContent = tr.contentLbl;
+            document.getElementById('greeting').textContent = new Date().getHours() < 17 ? tr.greeting : tr.eveningGreeting;
         }
 
         function rotateQuote() {
-            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-            document.getElementById('quoteText').textContent = `"${quotes[currentQuoteIndex]}"`;
+            document.getElementById('quoteText').textContent = '"' + quotes[Math.floor(Math.random() * quotes.length)] + '"';
         }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const page = document.getElementById(pageId);
-            if (page) page.classList.add('active');
-
-            const langToggle = document.getElementById('langToggleLogin');
-            const themeSelector = document.getElementById('themeSelector');
-            
-            langToggle.classList.toggle('active', pageId !== 'dashboard');
-            themeSelector.classList.toggle('hidden', pageId !== 'dashboard');
-
-            document.querySelectorAll('.error-msg, .success-msg').forEach(el => el.classList.remove('show'));
+        function showPage(id) {
+            document.querySelectorAll('.auth-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('dashboard').style.display = 'none';
+            document.querySelectorAll('.auth-error, .auth-success').forEach(e => e.classList.remove('show'));
         }
 
-        function handleLogin(e) {
+        function showDash() {
+            document.querySelectorAll('.auth-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('dashboard').style.display = 'block';
+        }
+
+        function updateDate() {
+            const now = new Date();
+            const tr = t[lang];
+            document.getElementById('dayName').textContent = tr.dayNames[now.getDay()];
+            document.getElementById('fullDate').textContent = now.getDate() + ' ' + tr.months[now.getMonth()] + ' ' + now.getFullYear();
+            document.getElementById('greeting').textContent = now.getHours() < 17 ? tr.greeting : tr.eveningGreeting;
+        }
+
+        function doLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('emailInput').value.trim();
-            const password = document.getElementById('passwordInput').value;
-            const errorEl = document.getElementById('loginError');
-            const t = translations[currentLang];
+            const email = document.getElementById('emailIn').value.trim();
+            const pass = document.getElementById('passIn').value;
+            const tr = t[lang];
 
-            if (!email || !password) {
-                errorEl.textContent = t.errorEmailRequired;
-                errorEl.classList.add('show');
+            if (!email || !pass) {
+                document.getElementById('loginErr').textContent = tr.errEmail;
+                document.getElementById('loginErr').classList.add('show');
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('khayrUsers'));
-            const user = users.find(u => u.email === email && u.password === password);
+            const found = users.find(u => u.email === email && u.password === pass);
 
-            if (user) {
-                localStorage.setItem('khayrCurrentUser', email);
-                currentUser = email;
-                showDashboard();
+            if (found) {
+                localStorage.setItem('khayrUser', email);
+                user = email;
+                showDash();
+                renderPillars();
+                renderJournals();
+                updateDate();
             } else {
-                errorEl.textContent = t.errorInvalidCredentials;
-                errorEl.classList.add('show');
+                document.getElementById('loginErr').textContent = tr.errWrong;
+                document.getElementById('loginErr').classList.add('show');
             }
         }
 
-        function handleRegister(e) {
+        function doRegister(e) {
             e.preventDefault();
-            const name = document.getElementById('nameInput').value.trim();
-            const email = document.getElementById('regEmailInput').value.trim();
-            const password = document.getElementById('regPasswordInput').value;
-            const confirmPassword = document.getElementById('confirmPasswordInput').value;
-            const errorEl = document.getElementById('registerError');
-            const successEl = document.getElementById('registerSuccess');
-            const t = translations[currentLang];
+            const name = document.getElementById('nameIn').value.trim();
+            const email = document.getElementById('regEmailIn').value.trim();
+            const pass = document.getElementById('regPassIn').value;
+            const confirm = document.getElementById('confirmIn').value;
+            const tr = t[lang];
 
-            if (!name) { errorEl.textContent = t.errorNameRequired; errorEl.classList.add('show'); return; }
-            if (!email) { errorEl.textContent = t.errorEmailRequired; errorEl.classList.add('show'); return; }
-            if (password.length < 8) { errorEl.textContent = t.errorPasswordShort; errorEl.classList.add('show'); return; }
-            if (password !== confirmPassword) { errorEl.textContent = t.errorPasswordMatch; errorEl.classList.add('show'); return; }
+            if (!name) { document.getElementById('regErr').textContent = tr.errName; document.getElementById('regErr').classList.add('show'); return; }
+            if (!email) { document.getElementById('regErr').textContent = tr.errEmail; document.getElementById('regErr').classList.add('show'); return; }
+            if (pass.length < 8) { document.getElementById('regErr').textContent = tr.errShort; document.getElementById('regErr').classList.add('show'); return; }
+            if (pass !== confirm) { document.getElementById('regErr').textContent = tr.errMatch; document.getElementById('regErr').classList.add('show'); return; }
 
             const users = JSON.parse(localStorage.getItem('khayrUsers'));
             if (users.some(u => u.email === email)) {
-                errorEl.textContent = t.errorEmailExists;
-                errorEl.classList.add('show');
+                document.getElementById('regErr').textContent = tr.errExists;
+                document.getElementById('regErr').classList.add('show');
                 return;
             }
 
-            users.push({ email, password, name });
+            users.push({ email, password: pass, name });
             localStorage.setItem('khayrUsers', JSON.stringify(users));
-
-            successEl.textContent = t.successRegister;
-            successEl.classList.add('show');
-            errorEl.classList.remove('show');
+            document.getElementById('regSuccess').textContent = tr.successReg;
+            document.getElementById('regSuccess').classList.add('show');
 
             setTimeout(() => {
                 showPage('loginPage');
-                document.getElementById('emailInput').value = email;
+                document.getElementById('emailIn').value = email;
             }, 1500);
         }
 
-        function handleForgotPassword(e) {
+        function doForgot(e) {
             e.preventDefault();
-            const email = document.getElementById('forgotEmailInput').value.trim();
-            const errorEl = document.getElementById('forgotError');
-            const successEl = document.getElementById('forgotSuccess');
-            const t = translations[currentLang];
-
+            const email = document.getElementById('forgotEmailIn').value.trim();
             const users = JSON.parse(localStorage.getItem('khayrUsers'));
+            const tr = t[lang];
 
             if (!users.some(u => u.email === email)) {
-                errorEl.textContent = t.errorForgotEmail;
-                errorEl.classList.add('show');
-                successEl.classList.remove('show');
+                document.getElementById('forgotErr').textContent = tr.errNotFound;
+                document.getElementById('forgotErr').classList.add('show');
                 return;
             }
 
-            successEl.textContent = t.successForgot;
-            successEl.classList.add('show');
-            errorEl.classList.remove('show');
+            document.getElementById('forgotSuccess').textContent = tr.successForgot;
+            document.getElementById('forgotSuccess').classList.add('show');
 
             setTimeout(() => showPage('loginPage'), 2000);
         }
 
         function logout() {
-            localStorage.removeItem('khayrCurrentUser');
-            currentUser = null;
+            localStorage.removeItem('khayrUser');
+            user = null;
             showPage('loginPage');
-            document.getElementById('emailInput').value = '';
-            document.getElementById('passwordInput').value = '';
-        }
-
-        function togglePassword() {
-            const input = document.getElementById('passwordInput');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-
-        function toggleAuthLang() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('khayrLang', currentLang);
-            applyLanguage(currentLang);
-        }
-
-        function toggleDashboardLang() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('khayrLang', currentLang);
-            applyLanguage(currentLang);
-            renderPillars();
-            renderJournals();
-            updateDateDisplay();
-            updateGreeting();
-            updateQuote();
-        }
-
-        function applyLanguage(lang) {
-            const t = translations[lang];
-            document.body.classList.toggle('en', lang === 'en');
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-            document.getElementById('authLangText').textContent = lang === 'ar' ? 'EN' : 'عربي';
-            document.getElementById('dashLangText').textContent = lang === 'ar' ? 'EN' : 'عربي';
-
-            document.getElementById('loginSubtitle').textContent = t.loginSubtitle;
-            document.getElementById('emailLabel').textContent = t.emailLabel;
-            document.getElementById('passwordLabel').textContent = t.passwordLabel;
-            document.getElementById('loginBtnText').textContent = t.loginBtn;
-            document.getElementById('forgotLink').textContent = t.forgotLink;
-            document.getElementById('noAccountText').textContent = t.noAccountText;
-            document.getElementById('registerLink').textContent = t.registerLink;
-
-            document.getElementById('registerSubtitle').textContent = t.registerSubtitle;
-            document.getElementById('nameLabel').textContent = t.nameLabel;
-            document.getElementById('regEmailLabel').textContent = t.regEmailLabel;
-            document.getElementById('regPasswordLabel').textContent = t.regPasswordLabel;
-            document.getElementById('confirmPasswordLabel').textContent = t.confirmPasswordLabel;
-            document.getElementById('registerBtnText').textContent = t.registerBtn;
-            document.getElementById('hasAccountText').textContent = t.hasAccountText;
-            document.getElementById('loginLink').textContent = t.loginLink;
-
-            document.getElementById('forgotSubtitle').textContent = t.forgotSubtitle;
-            document.getElementById('forgotEmailLabel').textContent = t.forgotEmailLabel;
-            document.getElementById('forgotBtnText').textContent = t.forgotBtn;
-            document.getElementById('rememberText').textContent = t.rememberText;
-            document.getElementById('backLoginLink').textContent = t.backLoginLink;
-
-            document.getElementById('logoutText').textContent = t.logout;
-            document.getElementById('journalTitle').textContent = t.journalTitle;
-            document.getElementById('addJournalText').textContent = t.addJournal;
-            document.getElementById('addTaskText').textContent = t.addTask;
-            document.getElementById('newTaskInput').placeholder = t.newTaskPlaceholder;
-
-            document.getElementById('journalModalTitle').textContent = t.journalModalTitle;
-            document.getElementById('journalDateLabel').textContent = t.journalDateLabel;
-            document.getElementById('moodLabel').textContent = t.moodLabel;
-            document.getElementById('contentLabel').textContent = t.contentLabel;
-            document.getElementById('saveJournalText').textContent = t.saveJournal;
-        }
-
-        function updateQuote() {
-            document.getElementById('quoteText').textContent = `"${quotes[currentQuoteIndex]}"`;
-        }
-
-        function updateDateDisplay() {
-            const t = translations[currentLang];
-            const now = new Date();
-            const dayName = t.dayNames[now.getDay()];
-            const day = now.getDate();
-            const month = t.months[now.getMonth()];
-            const year = now.getFullYear();
-
-            document.getElementById('dayName').textContent = dayName;
-            document.getElementById('fullDate').textContent = `${day} ${month} ${year}`;
-        }
-
-        function updateGreeting() {
-            const t = translations[currentLang];
-            const hour = new Date().getHours();
-            const greeting = hour < 17 ? t.greeting : t.eveningGreeting;
-            document.getElementById('greeting').textContent = greeting;
-        }
-
-        function showDashboard() {
-            showPage('dashboard');
-            renderPillars();
-            renderJournals();
-            updateDateDisplay();
-            updateGreeting();
+            document.getElementById('emailIn').value = '';
+            document.getElementById('passIn').value = '';
         }
 
         function renderPillars() {
             const grid = document.getElementById('pillarsGrid');
             grid.innerHTML = '';
-            const t = translations[currentLang];
 
-            pillars.forEach(pillar => {
-                const tasks = JSON.parse(localStorage.getItem('khayrTasks'))[pillar.id] || [];
-                const completed = tasks.filter(t => t.completed).length;
+            pillars.forEach(p => {
+                const tasks = JSON.parse(localStorage.getItem('khayrTasks'))[p.id] || [];
+                const done = tasks.filter(t => t.completed).length;
                 const total = tasks.length;
-                const progress = total > 0 ? (completed / total) * 100 : 0;
+                const pct = total > 0 ? (done / total) * 100 : 0;
 
-                const card = document.createElement('div');
-                card.className = 'pillar-card';
-                card.setAttribute('data-pillar', pillar.id);
-                card.onclick = () => openPillarModal(pillar.id);
-
-                card.innerHTML = `
-                    <div class="pillar-info">
-                        <h3>${currentLang === 'ar' ? pillar.nameAr : pillar.nameEn}</h3>
-                        <span class="subtitle">${pillar.nameEn}</span>
-                    </div>
-                    <div class="pillar-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${progress}%"></div>
-                        </div>
-                    </div>
-                    <div class="pillar-stats">
-                        <span>${completed}/${total} ${currentLang === 'ar' ? 'مهمة' : 'tasks'}</span>
-                        <span>${Math.round(progress)}%</span>
-                    </div>
+                const div = document.createElement('div');
+                div.className = 'pillar';
+                div.onclick = () => openPillar(p.id);
+                div.innerHTML = `
+                    <h3>${lang === 'ar' ? p.name : p.en}</h3>
+                    <span>${p.en}</span>
+                    <div class="pillar-bar"><div class="pillar-fill" style="width:${pct}%"></div></div>
+                    <div class="pillar-stat"><span>${done}/${total}</span><span>${Math.round(pct)}%</span></div>
                 `;
-
-                grid.appendChild(card);
+                grid.appendChild(div);
             });
         }
 
-        function openPillarModal(pillarId) {
-            currentPillar = pillarId;
-            const pillar = pillars.find(p => p.id === pillarId);
-
-            document.getElementById('pillarModalTitle').textContent =
-                currentLang === 'ar' ? pillar.nameAr : pillar.nameEn;
-
+        function openPillar(id) {
+            currentPillar = id;
+            const p = pillars.find(x => x.id === id);
+            document.getElementById('pillarTitle').textContent = lang === 'ar' ? p.name : p.en;
             renderTasks();
-            document.getElementById('pillarModal').classList.add('active');
+            document.getElementById('pillarModal').classList.add('show');
         }
 
-        function closePillarModal() {
-            document.getElementById('pillarModal').classList.remove('active');
+        function closePillar() {
+            document.getElementById('pillarModal').classList.remove('show');
             currentPillar = null;
-            document.getElementById('newTaskInput').value = '';
         }
 
         function renderTasks() {
-            const tasksList = document.getElementById('tasksList');
+            const list = document.getElementById('tasksList');
             const tasks = JSON.parse(localStorage.getItem('khayrTasks'))[currentPillar] || [];
-            const t = translations[currentLang];
+            const tr = t[lang];
 
             if (tasks.length === 0) {
-                tasksList.innerHTML = `
-                    <div class="empty-state">
-                        <p>${t.noTasks}</p>
-                    </div>
-                `;
+                list.innerHTML = '<div class="empty">' + tr.noTasks + '</div>';
                 return;
             }
 
-            tasksList.innerHTML = tasks.map((task, index) => `
-                <div class="task-item ${task.completed ? 'completed' : ''}">
-                    <input type="checkbox" ${task.completed ? 'checked' : ''}
-                           onchange="toggleTask(${index})">
+            list.innerHTML = tasks.map((task, i) => `
+                <div class="task ${task.completed ? 'done' : ''}">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${i})">
                     <span>${task.text}</span>
-                    <button class="btn-delete-task" onclick="event.stopPropagation(); deleteTask(${index})">حذف</button>
+                    <button class="task-del" onclick="deleteTask(${i})">حذف</button>
                 </div>
             `).join('');
         }
 
         function addTask() {
-            const input = document.getElementById('newTaskInput');
+            const input = document.getElementById('taskInput');
             const text = input.value.trim();
             if (!text) return;
 
-            const allTasks = JSON.parse(localStorage.getItem('khayrTasks'));
-            allTasks[currentPillar].push({ text, completed: false });
-            localStorage.setItem('khayrTasks', JSON.stringify(allTasks));
+            const all = JSON.parse(localStorage.getItem('khayrTasks'));
+            all[currentPillar].push({ text, completed: false });
+            localStorage.setItem('khayrTasks', JSON.stringify(all));
 
             input.value = '';
             renderTasks();
             renderPillars();
         }
 
-        function toggleTask(index) {
-            const allTasks = JSON.parse(localStorage.getItem('khayrTasks'));
-            allTasks[currentPillar][index].completed = !allTasks[currentPillar][index].completed;
-            localStorage.setItem('khayrTasks', JSON.stringify(allTasks));
+        function toggleTask(i) {
+            const all = JSON.parse(localStorage.getItem('khayrTasks'));
+            all[currentPillar][i].completed = !all[currentPillar][i].completed;
+            localStorage.setItem('khayrTasks', JSON.stringify(all));
             renderTasks();
             renderPillars();
         }
 
-        function deleteTask(index) {
-            const allTasks = JSON.parse(localStorage.getItem('khayrTasks'));
-            allTasks[currentPillar].splice(index, 1);
-            localStorage.setItem('khayrTasks', JSON.stringify(allTasks));
+        function deleteTask(i) {
+            const all = JSON.parse(localStorage.getItem('khayrTasks'));
+            all[currentPillar].splice(i, 1);
+            localStorage.setItem('khayrTasks', JSON.stringify(all));
             renderTasks();
             renderPillars();
         }
 
-        document.getElementById('newTaskInput')?.addEventListener('keypress', (e) => {
+        document.getElementById('taskInput')?.addEventListener('keypress', e => {
             if (e.key === 'Enter') addTask();
         });
 
-        function openJournalModal(entry = null) {
-            editingJournalId = entry ? entry.id : null;
-            selectedMood = entry ? entry.mood : null;
-
+        function openJournal(entry = null) {
+            editJournalId = entry ? entry.id : null;
+            currentMood = entry ? entry.mood : null;
             document.getElementById('journalDate').value = entry ? entry.date : new Date().toISOString().split('T')[0];
             document.getElementById('journalContent').value = entry ? entry.content : '';
-
-            document.querySelectorAll('.mood-option').forEach(el => {
-                el.classList.toggle('selected', el.dataset.mood === selectedMood);
-            });
-
-            document.getElementById('journalModal').classList.add('active');
+            document.querySelectorAll('.mood-opt').forEach(el => el.classList.toggle('selected', el.dataset.mood === currentMood));
+            document.getElementById('journalModal').classList.add('show');
         }
 
-        function closeJournalModal() {
-            document.getElementById('journalModal').classList.remove('active');
-            editingJournalId = null;
-            selectedMood = null;
-            document.getElementById('journalContent').value = '';
-            document.querySelectorAll('.mood-option').forEach(el => el.classList.remove('selected'));
+        function closeJournal() {
+            document.getElementById('journalModal').classList.remove('show');
+            editJournalId = null;
+            currentMood = null;
         }
 
-        function selectMood(el) {
-            document.querySelectorAll('.mood-option').forEach(e => e.classList.remove('selected'));
+        function pickMood(el) {
+            document.querySelectorAll('.mood-opt').forEach(e => e.classList.remove('selected'));
             el.classList.add('selected');
-            selectedMood = el.dataset.mood;
+            currentMood = el.dataset.mood;
         }
 
         function saveJournal() {
@@ -1748,87 +917,44 @@
 
             const journals = JSON.parse(localStorage.getItem('khayrJournals'));
 
-            if (editingJournalId) {
-                const index = journals.findIndex(j => j.id === editingJournalId);
-                if (index !== -1) {
-                    journals[index] = { ...journals[index], content, date, mood: selectedMood };
-                }
+            if (editJournalId) {
+                const idx = journals.findIndex(j => j.id === editJournalId);
+                if (idx !== -1) journals[idx] = { ...journals[idx], content, date, mood: currentMood };
             } else {
-                journals.unshift({
-                    id: Date.now(),
-                    content,
-                    date,
-                    mood: selectedMood || 'okay',
-                    createdAt: new Date().toISOString()
-                });
+                journals.unshift({ id: Date.now(), content, date, mood: currentMood || 'okay', createdAt: new Date().toISOString() });
             }
 
             localStorage.setItem('khayrJournals', JSON.stringify(journals));
-            closeJournalModal();
+            closeJournal();
             renderJournals();
         }
 
-        function deleteJournal(id) {
-            deleteTarget = { type: 'journal', id };
-            document.getElementById('deleteMessage').textContent =
-                currentLang === 'ar' ? 'هل أنت متأكد من حذف هذه التدوينة؟' : 'Are you sure you want to delete this entry?';
-            document.getElementById('deleteModal').classList.add('active');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.remove('active');
-            deleteTarget = null;
-        }
-
-        function confirmDelete() {
-            if (deleteTarget) {
-                if (deleteTarget.type === 'journal') {
-                    const journals = JSON.parse(localStorage.getItem('khayrJournals'));
-                    const filtered = journals.filter(j => j.id !== deleteTarget.id);
-                    localStorage.setItem('khayrJournals', JSON.stringify(filtered));
-                    renderJournals();
-                }
-            }
-            closeDeleteModal();
-        }
-
         function renderJournals() {
-            const container = document.getElementById('journalEntries');
+            const list = document.getElementById('journalList');
             const journals = JSON.parse(localStorage.getItem('khayrJournals')) || [];
-            const t = translations[currentLang];
-
-            const moodEmojis = {
-                great: '😄', good: '🙂', okay: '😐', bad: '😔', terrible: '😢'
-            };
+            const tr = t[lang];
+            const moods = { great: '😀', good: '🙂', okay: '😐', bad: '😔', terrible: '😢' };
 
             if (journals.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <p>${t.noJournals}</p>
-                    </div>
-                `;
+                list.innerHTML = '<div class="empty">' + tr.noJournals + '</div>';
                 return;
             }
 
-            container.innerHTML = journals.map(journal => `
-                <div class="journal-entry" onclick="openJournalModal(journal)">
-                    <div class="journal-entry-header">
-                        <span class="journal-date">${formatDate(journal.date)}</span>
-                        <span class="journal-mood">${moodEmojis[journal.mood]}</span>
+            list.innerHTML = journals.map(j => `
+                <div class="entry" onclick="openJournal(j)">
+                    <div class="entry-head">
+                        <span class="entry-date">${formatDate(j.date)}</span>
+                        <span class="entry-mood">${moods[j.mood]}</span>
                     </div>
-                    <div class="journal-content">${journal.content}</div>
-                    <button class="btn-delete-task" style="opacity:1; margin-top:8px;" 
-                            onclick="event.stopPropagation(); deleteJournal(${journal.id})">
-                        حذف
-                    </button>
+                    <div class="entry-content">${j.content}</div>
                 </div>
             `).join('');
         }
 
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            const t = translations[currentLang];
-            return `${t.dayNames[date.getDay()]}، ${date.getDate()} ${t.months[date.getMonth()]} ${date.getFullYear()}`;
+        function formatDate(d) {
+            const date = new Date(d);
+            const tr = t[lang];
+            return tr.dayNames[date.getDay()] + '، ' + date.getDate() + ' ' + tr.months[date.getMonth()];
         }
 
         init();
